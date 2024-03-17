@@ -1,0 +1,29 @@
+Bikas<-read.csv ("C:/Users/HP/OneDrive/Desktop/MoAVA/CDD.csv", header = TRUE) 
+Bikas
+colnames(Bikas)
+library(ggplot2)
+require(ggsankeyfier)
+head(Bikas)
+library(reshape2)
+library(dplyr)
+Bikas_long <- melt(Bikas, id.vars = "Genotypes")
+Bikas_long
+# Create the Sankey-like plot
+p <- ggplot(Bikas_long, aes(x = Genotypes, y = variable, fill = value)) +
+  geom_tile(color = "black") +
+  scale_fill_gradient(low = "green", high = "orange") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Display the plot
+plot(p)
+#to fill the different color
+p <- ggplot(Bikas_long, aes(x = Genotypes, y = variable, fill = value)) +
+  geom_tile(color = "black") +
+  scale_fill_gradientn(colors = c("green", "yellow", "orange", "red", "purple"), 
+                       limits = range(Bikas_long$value), breaks = pretty(Bikas_long$value, n = 5)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Display the plot
+print(p)
